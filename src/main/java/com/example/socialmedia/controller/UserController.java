@@ -57,8 +57,11 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user){
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id,user));
-    }
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id,user));}
+    /*@PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User user){
+        return service.updateUser(id,user);
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long id){
