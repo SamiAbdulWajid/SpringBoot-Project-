@@ -20,16 +20,18 @@ public class UserService {
 
     public List<UserDTO> getAllUser() {
         List<User> allUsers = repository.findAll();
-        return allUsers.stream().map(
-                (user) -> mapUserEntityToDto(user)).toList();
-
+        return allUsers.stream().map((user) -> mapUserEntityToDto(user)).toList();
     }
 
     public UserDTO findByUsername(String username) {
         User user = repository.findByUsername(username);
+
+        if(user == null){
+            throw new UserNotFoundException("Username doesn't exists" );
+        }
         return mapUserEntityToDto(user);
     }
-
+//  private static Student student_method_name(String str) 👇🏻 same
     private static UserDTO mapUserEntityToDto(User user) {
         UserDTO userDTO = UserDTO.builder()
                 .age(user.getAge())
@@ -57,19 +59,13 @@ public class UserService {
         return mapUserEntityToDto(repository.save(user));
     }
 
-    public User updateUser(Long id, User user) {
-        User existingUser = repository.findById(id).orElse(null);
-
-        if (existingUser != null) {
-            existingUser.setUsername(user.getUsername());
-            existingUser.setAge(user.getAge());
-            return existingUser;
-        }
-
-        return null;
+    public UserDTO updateUser(Long id, User user) {
+        User existingUser = repository.findById(id).orElseThrow(()-> new UserNotFoundException("User Not Found while updating the User" + id));
+        return mapUserEntityToDto(existingUser);
     }
 
-    public void deleteUser(Long id) {
+    public String deleteUser(Long id) {
         repository.deleteById(id);
+        return "Deleted Successfully" + id;
     }
 }

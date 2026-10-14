@@ -22,6 +22,12 @@ public class User {
     private String password;
     private Integer age;
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comment;
+
+    @OneToMany(mappedBy="user", cascade=CascadeType.REMOVE,fetch = FetchType.LAZY)
+    private List<Post> posts;
+
     @OneToMany(mappedBy = "following", cascade = CascadeType.ALL)
     private List<Follow> followers;
 

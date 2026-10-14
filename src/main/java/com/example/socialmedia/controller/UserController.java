@@ -42,26 +42,19 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<UserDTO> findByUsername(
-            @PathVariable String username) {
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.findByUsername(username));
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findByUsername(username));
     }
 
-    @PostMapping("/add-user")
+    @PostMapping("/add-user")            //@RequestBody Student student 👇🏻 same 
     public ResponseEntity<UserDTO> addUser(@RequestBody AddUserRequest request){
         return ResponseEntity.status(HttpStatus.OK).body(service.addUser(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user){
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id,user));}
-    /*@PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user){
-        return service.updateUser(id,user);
-    }*/
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody User user){
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateUser(id,user));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long id){
